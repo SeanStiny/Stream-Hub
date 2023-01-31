@@ -1,6 +1,6 @@
 import { Server } from 'socket.io';
-import { AlertService } from './alerts/AlertService';
-import { TwitchEventService } from './twitch_events/TwitchEventService';
+import { AlertService } from './services/alerts/AlertService';
+import { TwitchEventService } from './services/twitch_events/TwitchEventService';
 
 const io = new Server(5000);
 
