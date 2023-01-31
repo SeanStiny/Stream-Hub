@@ -48,7 +48,7 @@ export class TwitchEventService {
   }
 }
 
-interface FollowEvent {
+export interface FollowEvent {
   user_id: string;
   user_login: string;
   user_name: string;
@@ -58,7 +58,7 @@ interface FollowEvent {
   followed_at: string;
 }
 
-interface SubscriptionMessageEvent {
+export interface SubscriptionMessageEvent {
   user_id: string;
   user_login: string;
   user_name: string;
@@ -79,7 +79,7 @@ interface SubscriptionMessageEvent {
   duration_months: number;
 }
 
-interface SubscriptionGiftEvent {
+export interface SubscriptionGiftEvent {
   user_id: string;
   user_login: string;
   user_name: string;
@@ -92,7 +92,7 @@ interface SubscriptionGiftEvent {
   is_anonymous: boolean;
 }
 
-interface CheerEvent {
+export interface CheerEvent {
   is_anonymous: boolean;
   user_id: string;
   user_login: string;
@@ -104,7 +104,7 @@ interface CheerEvent {
   bits: number;
 }
 
-interface RaidEvent {
+export interface RaidEvent {
   from_broadcaster_user_id: string;
   from_broadcaster_user_login: string;
   from_broadcaster_user_name: string;
