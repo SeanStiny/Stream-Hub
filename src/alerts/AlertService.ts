@@ -1,13 +1,8 @@
-import EventEmitter from 'events';
 import { Server } from 'socket.io';
 import { TwitchEventService } from '../twitch_events/TwitchEventService';
 
 export class AlertService {
-  private events: EventEmitter;
-
-  constructor(private io: Server, private twitchEvents: TwitchEventService) {
-    this.events = new EventEmitter();
-
+  constructor(io: Server, twitchEvents: TwitchEventService) {
     twitchEvents.onCheer((event) => {
       io.emit('alert', {
         type: 'cheer',
