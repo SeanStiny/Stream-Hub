@@ -1,7 +1,7 @@
 import { createHmac, timingSafeEqual } from 'crypto';
 import { Application, raw, Request, Response, Router } from 'express';
-import { RouteController } from '../../App';
-import { logger } from '../../logger';
+import { RouteController } from '../App';
+import { logger } from '../logger';
 import {
   CheerEvent,
   FollowEvent,

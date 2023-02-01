@@ -1,4 +1,4 @@
-import { ServiceEventListener } from '../../App';
+import { ServiceEventListener } from '../App';
 import { TwitchEventService } from '../twitch_events/TwitchEventService';
 import { AlertService } from './AlertService';
 

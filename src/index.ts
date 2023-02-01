@@ -2,10 +2,10 @@ import { Server } from 'socket.io';
 import { App } from './App';
 import { EVENTSUB_SECRET, HTTP_PORT, IO_PORT } from './config';
 import { logger } from './logger';
-import { AlertListener } from './services/alerts/AlertListener';
-import { AlertService } from './services/alerts/AlertService';
-import { TwitchEventController } from './services/twitch_events/TwitchEventController';
-import { TwitchEventService } from './services/twitch_events/TwitchEventService';
+import { AlertListener } from './alerts/AlertListener';
+import { AlertService } from './alerts/AlertService';
+import { TwitchEventController } from './twitch_events/TwitchEventController';
+import { TwitchEventService } from './twitch_events/TwitchEventService';
 
 // Websocket server
 const io = new Server(IO_PORT, { cors: { origin: '*' } });
