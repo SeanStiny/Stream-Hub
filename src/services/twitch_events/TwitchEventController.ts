@@ -92,7 +92,10 @@ export class TwitchEventController implements RouteController {
       if (MESSAGE_TYPE_NOTIFICATION === req.headers[MESSAGE_TYPE]) {
         const event = notification.event;
 
-        this.eventHandlers[notification.subscription.type](event);
+        const handler = this.eventHandlers[notification.subscription.type];
+        if (handler) {
+          handler(event);
+        }
 
         logger.info(`Event type: ${notification.subscription.type}`);
         logger.info(JSON.stringify(notification.event, null, 4));

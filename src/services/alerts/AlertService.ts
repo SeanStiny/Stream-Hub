@@ -1,48 +1,52 @@
 import { Server } from 'socket.io';
-import { TwitchEventService } from '../twitch_events/TwitchEventService';
 
 export class AlertService {
-  constructor(io: Server, twitchEvents: TwitchEventService) {
-    twitchEvents.onCheer((event) => {
-      io.emit('alert', {
-        type: 'cheer',
-        displayName: event.user_name,
-        amount: event.bits,
-        isAnonymous: event.is_anonymous,
-        tts: event.message,
-      });
-    });
+  constructor(private io: Server) {}
 
-    twitchEvents.onFollow((event) => {
-      io.emit('alert', {
-        type: 'follow',
-        displayName: event.user_name,
-      });
-    });
-
-    twitchEvents.onRaid((event) => {
-      io.emit('alert', {
-        type: 'raid',
-        displayName: event.from_broadcaster_user_name,
-        amount: event.viewers,
-      });
-    });
-
-    twitchEvents.onSubGift((event) => {
-      io.emit('alert', {
-        type: 'gift',
-        displayName: event.user_name,
-        amount: event.total,
-      });
-    });
-
-    twitchEvents.onSubMessage((event) => {
-      io.emit('alert', {
-        type: 'sub',
-        displayName: event.user_name,
-        amount: event.cumulative_months,
-        tts: event.message.text,
-      });
-    });
+  triggerCheer(alert: CheerAlert) {
+    this.io.emit('cheer', alert);
   }
+
+  triggerFollow(alert: FollowAlert) {
+    this.io.emit('follow', alert);
+  }
+
+  triggerRaid(alert: RaidAlert) {
+    this.io.emit('raid', alert);
+  }
+
+  triggerSubGift(alert: SubGiftAlert) {
+    this.io.emit('gift', alert);
+  }
+
+  triggerSub(alert: SubAlert) {
+    this.io.emit('sub', alert);
+  }
+}
+
+export interface CheerAlert {
+  displayName: string;
+  amount: number;
+  isAnonymous: boolean;
+  message: string;
+}
+
+export interface FollowAlert {
+  displayName: string;
+}
+
+export interface RaidAlert {
+  displayName: string;
+  viewers: number;
+}
+
+export interface SubGiftAlert {
+  displayName: string;
+  total: number;
+}
+
+export interface SubAlert {
+  displayName: string;
+  months: number;
+  message: string;
 }
