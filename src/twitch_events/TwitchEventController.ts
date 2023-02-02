@@ -6,6 +6,7 @@ import {
   CheerEvent,
   FollowEvent,
   RaidEvent,
+  RedeemEvent,
   SubscriptionGiftEvent,
   SubscriptionMessageEvent,
   TwitchEventService,
@@ -41,6 +42,8 @@ export class TwitchEventController implements RouteController {
     this.eventHandlers['channel.subscription.message'] = this.resubHandler;
     this.eventHandlers['channel.cheer'] = this.cheerHandler;
     this.eventHandlers['channel.raid'] = this.raidHandler;
+    this.eventHandlers['channel.channel_points_custom_reward_redemption.add'] =
+      this.redeemHandler;
   }
 
   useRoutes(app: Application): void {
@@ -74,6 +77,10 @@ export class TwitchEventController implements RouteController {
 
   private raidHandler = (event: unknown) => {
     this.twitchEvents.emitRaid(event as RaidEvent);
+  };
+
+  private redeemHandler = (event: unknown) => {
+    this.twitchEvents.emitRedeem(event as RedeemEvent);
   };
 
   private callbackEventHandler = (req: Request, res: Response) => {

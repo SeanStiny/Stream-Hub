@@ -46,6 +46,32 @@ export class TwitchEventService {
   onRaid(listener: (event: RaidEvent) => void) {
     this.events.addListener('raid', listener);
   }
+
+  emitRedeem(event: RedeemEvent) {
+    this.events.emit('redeem', event);
+  }
+
+  onRedeem(listener: (event: RedeemEvent) => void) {
+    this.events.addListener('redeem', listener);
+  }
+}
+
+export interface RedeemEvent {
+  id: string;
+  broadcaster_user_id: string;
+  broadcaster_user_login: string;
+  broadcaster_user_name: string;
+  user_id: string;
+  user_login: string;
+  user_name: string;
+  user_input: string;
+  status: string;
+  reward: {
+    id: string;
+    title: string;
+    cost: number;
+    prompt: string;
+  };
 }
 
 export interface FollowEvent {
