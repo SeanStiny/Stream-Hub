@@ -1,16 +1,20 @@
 import { ServiceEventListener } from '../App';
 import { TwitchEventService } from '../twitch_events/TwitchEventService';
-import { AlertService } from './AlertService';
+import { WebSocketService } from './WebSocketService';
 
-export class AlertListener implements ServiceEventListener {
+export class WebSocketListener implements ServiceEventListener {
   constructor(
-    private alerts: AlertService,
+    private websocket: WebSocketService,
     private twitchEvents: TwitchEventService
   ) {}
 
   listen() {
+    this.listenToTwitch();
+  }
+
+  private listenToTwitch = () => {
     this.twitchEvents.onCheer((event) => {
-      this.alerts.triggerCheer({
+      this.websocket.emitCheer({
         displayName: event.user_name,
         amount: event.bits,
         isAnonymous: event.is_anonymous,
@@ -19,31 +23,31 @@ export class AlertListener implements ServiceEventListener {
     });
 
     this.twitchEvents.onFollow((event) => {
-      this.alerts.triggerFollow({
+      this.websocket.emitFollow({
         displayName: event.user_name,
       });
     });
 
     this.twitchEvents.onRaid((event) => {
-      this.alerts.triggerRaid({
+      this.websocket.emitRaid({
         displayName: event.from_broadcaster_user_name,
         viewers: event.viewers,
       });
     });
 
     this.twitchEvents.onSubGift((event) => {
-      this.alerts.triggerSubGift({
+      this.websocket.emitGiftSub({
         displayName: event.user_name,
         total: event.total,
       });
     });
 
     this.twitchEvents.onSubMessage((event) => {
-      this.alerts.triggerSub({
+      this.websocket.emitSub({
         displayName: event.user_name,
         months: event.cumulative_months,
         message: event.message.text,
       });
     });
-  }
+  };
 }
