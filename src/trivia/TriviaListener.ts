@@ -53,7 +53,7 @@ export class TriviaListener implements ServiceEventListener {
         );
       }
       const question = this.trivia.queryCurrentQuestion();
-      if (question /* && question.contestant === event.displayName*/) {
+      if (question && question.contestant === event.displayName) {
         if (
           command === '1' ||
           command === '2' ||
