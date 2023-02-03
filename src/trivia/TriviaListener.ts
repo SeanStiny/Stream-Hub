@@ -9,13 +9,18 @@ const rewards = {
   hard: 20,
 };
 const TIME_LIMIT = 12 * 1000;
+const COMMAND_COOLDOWN = 5000;
 
 export class TriviaListener implements ServiceEventListener {
+  private commandLastUsed: number;
+
   constructor(
     private trivia: TriviaService,
     private twitchEvents: TwitchEventService,
     private chat: ChatService
-  ) {}
+  ) {
+    this.commandLastUsed = 0;
+  }
 
   listen() {
     this.twitchEvents.onRedeem(async (event) => {
@@ -46,11 +51,15 @@ export class TriviaListener implements ServiceEventListener {
 
     this.chat.onMessage((event) => {
       const command = event.message.split(' ')[0];
-      if (command === '!trivia') {
+      if (
+        command === '!trivia' &&
+        Date.now() - this.commandLastUsed >= COMMAND_COOLDOWN
+      ) {
         const brainCells = this.trivia.queryBrainCells(event.displayName) || 0;
         this.chat.say(
           `@${event.displayName} You have ${brainCells} brain cells. Earn more by redeeming trivia with channel points!`
         );
+        this.commandLastUsed = Date.now();
       }
       const question = this.trivia.queryCurrentQuestion();
       if (question && question.contestant === event.displayName) {
