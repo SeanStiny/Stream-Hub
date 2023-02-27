@@ -8,7 +8,7 @@ const rewards = {
   medium: 10,
   hard: 20,
 };
-const TIME_LIMIT = 12 * 1000;
+const TIME_LIMIT = 15 * 1000;
 const COMMAND_COOLDOWN = 5000;
 
 export class TriviaListener implements ServiceEventListener {
@@ -31,9 +31,9 @@ export class TriviaListener implements ServiceEventListener {
           answerString += ` - (${index + 1}): ${answer}`;
         });
         this.chat.say(
-          `@${event.user_name} [${question.category}] [Reward: ${
-            rewards[question.difficulty]
-          } brain cells] ${question.question}${answerString}`
+          `@${event.user_name} [Reward: ${rewards[question.difficulty]}] ${
+            question.question
+          }${answerString}`
         );
 
         setTimeout(() => {

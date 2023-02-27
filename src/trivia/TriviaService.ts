@@ -7,7 +7,40 @@ export class TriviaService {
 
   constructor() {
     this.currentQuestion = null;
-    this.brainCells = {};
+    this.brainCells = {
+      jadessal: 5,
+      zer0_paranoia: 15,
+      moose08: 80,
+      kescos: 65,
+      kaelygod: 180,
+      jaycam394: 765,
+      LuxManning: 285,
+      maxcooper23: 15,
+      cookeegs: 40,
+      kebab496: 100,
+      phantasnick: 60,
+      mike4michael: 70,
+      randomiies: 115,
+      trig_fish: 70,
+      jakegroot0: 20,
+      itmightbevid: 270,
+      ka1ametafan: 20,
+      santhumx: 95,
+      yorikato: 40,
+      heathersulu: 10,
+      cake4caker: 20,
+      adamxl414: 5,
+      adorableweaponofdoom: 20,
+      haplesshero: 10,
+      slepp_slepp: 20,
+      gingeralesy: 45,
+      seanstiny: 15,
+      btwblue: 235,
+      enkipnw: 5,
+      schwappyo: 15,
+      poofapocalypse: 20,
+      heliokto: 30,
+    };
   }
 
   async newQuestion(contestantName: string): Promise<TriviaQuestion> {
@@ -15,7 +48,7 @@ export class TriviaService {
     const questionData = data.results[0];
 
     const answers = [...questionData.incorrect_answers];
-    const correctIndex = Math.floor(Math.random() * answers.length + 1);
+    const correctIndex = Math.floor(Math.random() * answers.length);
     answers.splice(correctIndex, 0, questionData.correct_answer);
 
     this.currentQuestion = {
@@ -34,10 +67,10 @@ export class TriviaService {
   }
 
   rewardUser(user: string, brainCells: number) {
-    if (!this.brainCells[user]) {
-      this.brainCells[user] = brainCells;
+    if (!this.brainCells[user.toLowerCase()]) {
+      this.brainCells[user.toLowerCase()] = brainCells;
     } else {
-      this.brainCells[user] += brainCells;
+      this.brainCells[user.toLowerCase()] += brainCells;
     }
   }
 
@@ -45,8 +78,9 @@ export class TriviaService {
     return this.currentQuestion;
   }
 
-  queryBrainCells(user: string) {
-    return this.brainCells[user];
+  queryBrainCells(user?: string) {
+    if (user) return this.brainCells[user.toLowerCase()];
+    return { ...this.brainCells };
   }
 }
 
