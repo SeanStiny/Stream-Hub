@@ -20,6 +20,7 @@ import { Client } from 'tmi.js';
 import { ChatService } from './chat/ChatService';
 import { TriviaService } from './trivia/TriviaService';
 import { TriviaListener } from './trivia/TriviaListener';
+import { TriviaController } from './trivia/TriviaController';
 
 // Websocket server
 const io = new Server(IO_PORT, { cors: { origin: '*' } });
@@ -45,6 +46,7 @@ const app = new App(
   [
     new TwitchEventController('/twitch', twitchEvents, EVENTSUB_SECRET),
     new MarathonTimerController('/marathon_timer', marathonTimer),
+    new TriviaController('/trivia', trivia),
   ],
   [
     new WebSocketListener(alerts, twitchEvents),
