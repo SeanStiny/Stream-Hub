@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { decode } from 'html-entities';
 
 export class TriviaService {
   private currentQuestion: TriviaQuestion | null;
@@ -20,7 +21,7 @@ export class TriviaService {
     this.currentQuestion = {
       category: questionData.category.replace('Entertainment: ', ''),
       difficulty: questionData.difficulty,
-      question: decodeEntities(questionData.question),
+      question: decode(questionData.question),
       contestant: contestantName,
       answers,
       correctIndex,
@@ -56,28 +57,4 @@ interface TriviaQuestion {
   answers: string[];
   contestant: string;
   correctIndex: number;
-}
-
-function decodeEntities(encodedString: string) {
-  const translate_re = /&(nbsp|amp|quot|lt|gt);/g;
-  const translate = {
-    nbsp: ' ',
-    amp: '&',
-    quot: '"',
-    lt: '<',
-    gt: '>',
-  };
-  return encodedString
-    .replace(
-      translate_re,
-      (match, entity: 'nbsp' | 'amp' | 'quot' | 'lt' | 'gt') => {
-        if (translate[entity]) {
-        }
-        return translate[entity];
-      }
-    )
-    .replace(/&#(\d+);/gi, function (match, numStr) {
-      const num = parseInt(numStr, 10);
-      return String.fromCharCode(num);
-    });
 }
