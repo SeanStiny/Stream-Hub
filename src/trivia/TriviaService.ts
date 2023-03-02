@@ -63,6 +63,11 @@ export class TriviaService {
       answers.splice(correctIndex, 0, questionData.correct_answer);
     }
 
+    // Decode HTML entities in answers.
+    answers.forEach((answer, index) => {
+      answers[index] = decode(answer);
+    });
+
     this.currentQuestion = {
       category: questionData.category.replace('Entertainment: ', ''),
       difficulty: questionData.difficulty,
