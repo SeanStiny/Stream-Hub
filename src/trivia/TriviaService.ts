@@ -11,19 +11,19 @@ export class TriviaService {
       jadessal: 5,
       zer0_paranoia: 15,
       moose08: 80,
-      kescos: 65,
-      kaelygod: 180,
-      jaycam394: 765,
+      kescos: 85,
+      kaelygod: 185,
+      jaycam394: 795,
       LuxManning: 285,
       maxcooper23: 15,
       cookeegs: 40,
-      kebab496: 100,
+      kebab496: 120,
       phantasnick: 60,
       mike4michael: 70,
       randomiies: 115,
       trig_fish: 70,
       jakegroot0: 20,
-      itmightbevid: 270,
+      itmightbevid: 275,
       ka1ametafan: 20,
       santhumx: 95,
       yorikato: 40,
@@ -40,6 +40,7 @@ export class TriviaService {
       schwappyo: 15,
       poofapocalypse: 20,
       heliokto: 30,
+      flare_star_: 10,
     };
   }
 
@@ -47,9 +48,20 @@ export class TriviaService {
     const { data } = await axios.get('https://opentdb.com/api.php?amount=1');
     const questionData = data.results[0];
 
+    let correctIndex;
     const answers = [...questionData.incorrect_answers];
-    const correctIndex = Math.floor(Math.random() * answers.length);
-    answers.splice(correctIndex, 0, questionData.correct_answer);
+    if (answers.length === 1) {
+      if (answers[0] === 'True') {
+        answers.push('False');
+        correctIndex = 1;
+      } else {
+        answers.unshift('True');
+        correctIndex = 0;
+      }
+    } else {
+      correctIndex = Math.floor(Math.random() * answers.length);
+      answers.splice(correctIndex, 0, questionData.correct_answer);
+    }
 
     this.currentQuestion = {
       category: questionData.category.replace('Entertainment: ', ''),
